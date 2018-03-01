@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "236178119501",
+    "firebase_url": "https://fir-recyclerview-78f0e.firebaseio.com",
+    "project_id": "fir-recyclerview-78f0e",
+    "storage_bucket": "fir-recyclerview-78f0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236178119501:android:00a21b0233e4f61d",
+        "android_client_info": {
+          "package_name": "com.github.stulzm2.innertraveler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236178119501-88231q6huek9otpdh9paf89nnb42eev3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.stulzm2.innertraveler",
+            "certificate_hash": "463fdf7ecdc6de9d03b133836ea7f4b694ee2cb3"
+          }
+        },
+        {
+          "client_id": "236178119501-dvibem9n6bjs56rj3m3v5l122f67i8jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1GxgiHvxCC1Oc8zajp4WZAcH5eK1XMnc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236178119501-dvibem9n6bjs56rj3m3v5l122f67i8jk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

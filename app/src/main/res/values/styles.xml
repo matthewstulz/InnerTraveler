@@ -1,0 +1,45 @@
+<resources>
+
+    <style name="AppTheme.Black" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/primaryColor_black</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark_black</item>
+        <item name="colorAccent">@color/primaryAccent_black</item>
+        <item name="backgroundColor">@color/primaryColorDark_black</item>
+        <!--<item name="textColor">@android:color/white</item>-->
+    </style>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primaryColor_light</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark_light</item>
+        <item name="colorAccent">@color/primaryAccent_light</item>
+        <item name="backgroundColor">@color/primaryColorDark_light</item>
+    </style>
+
+    <style name="Login" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimaryDark">#DE4828</item>
+        <item name="colorAccent">#FC4828</item>
+    </style>
+
+    <style name="labelCustom">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name = "android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name = "android:layout_marginRight">8dp</item>
+        <item name = "android:layout_marginTop">8dp</item>
+        <item name = "android:padding">5dp</item>
+        <item name = "android:textColorHint">@android:color/white</item>
+    </style>
+
+    <style name="editTextCustom">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name = "android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name = "android:layout_marginRight">20dp</item>
+        <item name = "android:layout_marginTop">32dp</item>
+        <item name = "android:backgroundTint">@android:color/white</item>
+    </style>
+
+</resources>

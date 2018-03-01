@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">InnerTraveler</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="enable_dark_theme">Enable Dark Theme</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="prefs_theme_key">theme</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="sign_up">Sign up</string>
+    <string name="log_in">Log in</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_text">An email will be sent that will help you create a new password for your account</string>
+    <string name="forgot_password_button">Send Password Reset</string>
+    <string name="or">OR</string>
+    <string name="facebook_login_button">Login with Facebook</string>
+</resources>
