@@ -8,4 +8,6 @@
     <color name="primaryColor_light">#FC4828</color>
     <color name="primaryColorDark_light">#DE4828</color>
     <color name="primaryAccent_light">@android:color/white</color>
+
+    <color name="transparent_black">#60000000</color>
 </resources>

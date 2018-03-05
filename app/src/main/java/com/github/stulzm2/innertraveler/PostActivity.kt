@@ -7,19 +7,22 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_post.*
+import java.net.URI
 
 class PostActivity : BaseActivity() {
     // imports
-    private var imageBtn: ImageButton? = null
     private var uri: Uri? = null
     private var textTitle: EditText? = null
     private var textDesc: EditText? = null
@@ -44,7 +47,6 @@ class PostActivity : BaseActivity() {
         mAuth = FirebaseAuth.getInstance()
         mCurrentUser = mAuth!!.currentUser
         mDatabaseUsers = FirebaseDatabase.getInstance().reference.child("Users").child(mCurrentUser!!.uid)
-        imageBtn = findViewById(R.id.imageBtn)
         //picking image from gallery
         imageBtn!!.setOnClickListener {
             val galleryIntent = Intent(Intent.ACTION_GET_CONTENT)
@@ -64,7 +66,7 @@ class PostActivity : BaseActivity() {
             filepath.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
                 val downloadUrl = taskSnapshot.downloadUrl//getting the post image download url
                 Toast.makeText(applicationContext, "Successfully Uploaded", Toast.LENGTH_SHORT).show()
-                val newPost = databaseRef!!.push()
+                val newPost = databaseRef.push()
                 //adding post contents to database reference
                 mDatabaseUsers!!.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -96,6 +98,11 @@ class PostActivity : BaseActivity() {
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             uri = data.data
             imageBtn!!.setImageURI(uri)
+
+//            Picasso.with(this).load("file:" + uri).into(imageBtn)
+
+//            Glide.with(this).load(uri).into(imageBtn)
+
         }
     }
 
@@ -111,15 +118,11 @@ class PostActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when (id) {
-            android.R.id.home -> startActivity(Intent(this, MainActivity::class.java))
+            android.R.id.home -> finish()
             R.id.action_post -> {
                 val databaseRef = FirebaseDatabase.getInstance().reference.child("InnerTraveler")
                 post(databaseRef)
             }
-        }
-        if (id == android.R.id.home) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
     }

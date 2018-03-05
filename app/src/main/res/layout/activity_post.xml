@@ -25,22 +25,37 @@
             android:paddingTop="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            android:focusableInTouchMode="true">
 
             <ImageButton
                 android:id="@+id/imageBtn"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="250dp"
                 android:adjustViewBounds="true"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
+                android:background="@color/transparent_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:srcCompat="@drawable/ic_image_plus" />
             <!--android:src="@drawable/add_img" />-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imageBtn"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:srcCompat="@drawable/ic_image_plus" />-->
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textTitle_label"
+                style="@style/labelCustom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -55,7 +70,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/textTitle"
-                    style="@android:style/Widget.Holo.Light.EditText"
+                    style="@style/editTextCustom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -69,6 +84,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textDesc_label"
+                style="@style/labelCustom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -83,7 +99,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/textDesc"
-                    style="@android:style/Widget.Holo.Light.EditText"
+                    style="@style/editTextCustom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"

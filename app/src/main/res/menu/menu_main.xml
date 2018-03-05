@@ -2,15 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:title="Settings">
+        android:id="@+id/action_add"
+        android:orderInCategory="100"
+        android:title="@string/action_add_post"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_add_white_36px">
     </item>
     <item
-        android:id="@+id/action_add"
-        android:title="Add Post">
+        android:id="@+id/action_settings"
+        android:orderInCategory="80"
+        android:title="@string/action_settings">
     </item>
     <item
         android:id="@+id/action_log_out"
-        android:title="Log out">
+        android:orderInCategory="90"
+        android:title="@string/action_log_out">
     </item>
 </menu>

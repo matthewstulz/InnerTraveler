@@ -20,5 +20,9 @@
     <string name="facebook_login_button">Login with Facebook</string>
     <string name="hint_post_title">Post title</string>
     <string name="hint_post_description">Post description</string>
+    <string name="action_add_post">Add Post</string>
     <string name="action_post">Post</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_log_out">Log out</string>
+    <string name="action_settings">Settings</string>
 </resources>

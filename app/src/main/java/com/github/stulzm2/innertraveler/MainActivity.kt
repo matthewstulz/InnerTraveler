@@ -79,7 +79,7 @@ class MainActivity : BaseActivity() {
 
         fun setImageUrl(ctx: Context, imageUrl: String?) {
             val post_image = mView.findViewById<ImageView>(R.id.post_image)
-            Picasso.with(ctx).load(imageUrl).into(post_image)
+            Picasso.with(ctx).load(imageUrl).fit().centerInside().into(post_image)
         }
 
         fun setUserName(userName: String?) {

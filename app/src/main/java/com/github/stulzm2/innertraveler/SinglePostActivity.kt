@@ -3,6 +3,7 @@ package com.github.stulzm2.innertraveler
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -21,6 +22,7 @@ class SinglePostActivity : BaseActivity() {
     private var mDatabase: DatabaseReference? = null
     private var deleteBtn: Button? = null
     private var mAuth: FirebaseAuth? = null
+    private var uId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +34,11 @@ class SinglePostActivity : BaseActivity() {
         singleDesc = findViewById(R.id.singleDesc)
         mDatabase = FirebaseDatabase.getInstance().reference.child("InnerTraveler")
         post_key = intent.extras!!.getString("PostID")
-        deleteBtn = findViewById(R.id.deleteBtn)
+//        deleteBtn = findViewById(R.id.deleteBtn)
         mAuth = FirebaseAuth.getInstance()
-        deleteBtn!!.visibility = View.INVISIBLE
-        deleteBtn!!.setOnClickListener {
-            mDatabase!!.child(post_key!!).removeValue()
-
-            val mainintent = Intent(this@SinglePostActivity, MainActivity::class.java)
-            startActivity(mainintent)
-        }
+//        deleteBtn!!.visibility = View.INVISIBLE
+//        deleteBtn!!.setOnClickListener {
+//        }
 
 
         mDatabase!!.child(post_key!!).addValueEventListener(object : ValueEventListener {
@@ -49,15 +47,16 @@ class SinglePostActivity : BaseActivity() {
                 supportActionBar?.title = post_title
                 val post_desc = dataSnapshot.child("desc")?.value as String?
                 val post_image = dataSnapshot.child("imageUrl")?.value as String?
-                val post_uid = dataSnapshot.child("uid")?.value as String?
+//                val post_uid = dataSnapshot.child("uid")?.value as String?
+                uId = dataSnapshot.child("uid")?.value as String?
 
                 singleTitle!!.text = post_title
                 singleDesc!!.text = post_desc
-                Picasso.with(this@SinglePostActivity).load(post_image).into(singelImage)
-                if (mAuth!!.currentUser!!.uid == post_uid) {
-
-                    deleteBtn!!.visibility = View.VISIBLE
-                }
+                Picasso.with(this@SinglePostActivity).load(post_image).fit().centerInside().into(singelImage)
+//                if (mAuth!!.currentUser!!.uid == post_uid) {
+//
+//                    deleteBtn!!.visibility = View.VISIBLE
+//                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -66,11 +65,24 @@ class SinglePostActivity : BaseActivity() {
         })
     }
 
+    private fun delete() {
+        mDatabase!!.child(post_key!!).removeValue()
+        startActivity(Intent(this@SinglePostActivity, MainActivity::class.java))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return if (mAuth!!.currentUser!!.uid == uId) {
+            menuInflater.inflate(R.menu.menu_single_post, menu)
+            true
+        } else
+            false
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == android.R.id.home) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        when (id) {
+            android.R.id.home -> finish()
+            R.id.action_delete -> delete()
         }
         return super.onOptionsItemSelected(item)
     }
