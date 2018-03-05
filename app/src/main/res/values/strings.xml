@@ -18,4 +18,7 @@
     <string name="forgot_password_button">Send Password Reset</string>
     <string name="or">OR</string>
     <string name="facebook_login_button">Login with Facebook</string>
+    <string name="hint_post_title">Post title</string>
+    <string name="hint_post_description">Post description</string>
+    <string name="action_post">Post</string>
 </resources>
