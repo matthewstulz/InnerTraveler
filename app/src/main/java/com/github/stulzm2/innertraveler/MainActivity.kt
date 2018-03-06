@@ -52,14 +52,14 @@ class MainActivity : BaseActivity() {
                 mDatabase
         ) {
             override fun populateViewHolder(viewHolder: ItViewHolder, model: InnerTraveler, position: Int) {
-                val post_key = getRef(position).key.toString()
+                val postKey = getRef(position).key.toString()
                 viewHolder.setTitle(model.title)
                 viewHolder.setDesc(model.desc)
                 viewHolder.setImageUrl(applicationContext, model.imageUrl)
                 viewHolder.setUserName(model.username)
                 viewHolder.mView.setOnClickListener {
                     val singleActivity = Intent(this@MainActivity, SinglePostActivity::class.java)
-                    singleActivity.putExtra("PostID", post_key)
+                    singleActivity.putExtra("PostID", postKey)
                     startActivity(singleActivity)
                 }
             }
@@ -105,6 +105,7 @@ class MainActivity : BaseActivity() {
                 logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(logoutIntent)
             }
+            R.id.action_profile -> startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

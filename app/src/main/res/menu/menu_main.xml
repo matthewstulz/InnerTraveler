@@ -9,6 +9,11 @@
         android:icon="@drawable/ic_add_white_36px">
     </item>
     <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="70"
+        android:title="@string/action_profile">
+    </item>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="80"
         android:title="@string/action_settings">
