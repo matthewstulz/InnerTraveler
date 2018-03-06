@@ -97,11 +97,11 @@ class PostActivity : BaseActivity() {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             uri = data.data
-            imageBtn!!.setImageURI(uri)
+//            imageBtn!!.setImageURI(uri)
 
 //            Picasso.with(this).load("file:" + uri).into(imageBtn)
 
-//            Glide.with(this).load(uri).into(imageBtn)
+            Glide.with(this).load(uri).into(imageBtn)
 
         }
     }

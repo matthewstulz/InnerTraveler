@@ -28,30 +28,31 @@
             android:scrollbars="vertical"
             android:focusableInTouchMode="true">
 
-            <ImageButton
+            <!--<ImageButton-->
+                <!--android:id="@+id/imageBtn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:background="@color/transparent_black"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintHorizontal_bias="0.505"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:srcCompat="@drawable/ic_image_plus" />-->
+            <!--&lt;!&ndash;android:src="@drawable/add_img" />&ndash;&gt;-->
+
+            <ImageView
                 android:id="@+id/imageBtn"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/transparent_black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_image_plus" />
-            <!--android:src="@drawable/add_img" />-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/imageBtn"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toTopOf="parent"-->
-                <!--app:srcCompat="@drawable/ic_image_plus" />-->
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textTitle_label"
@@ -79,6 +80,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="32dp"
                     android:hint="@string/hint_post_title"
+                    android:textColor="@android:color/white"
                     android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
 
@@ -108,7 +110,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="32dp"
                     android:hint="@string/hint_post_description"
-                    android:inputType="textPersonName" />
+                    android:textColor="@android:color/white"
+                    android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
 
         </android.support.constraint.ConstraintLayout>

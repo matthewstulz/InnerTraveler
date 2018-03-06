@@ -2,7 +2,9 @@ package com.github.stulzm2.innertraveler
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.provider.Settings.Global.getString
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -84,7 +86,8 @@ class MainActivity : BaseActivity() {
 
         fun setUserName(userName: String?) {
             val postUserName = mView.findViewById<TextView>(R.id.post_user)
-            postUserName.text = userName
+            postUserName.text = "Posted by $userName"
+//            postUserName.text = (Resources.getSystem().getString(R.string.posted_by) + userName)
         }
     }
 
