@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,8 +23,6 @@ class LoginActivity : AppCompatActivity() {
     private var tvForgotPassword: TextView? = null
     private var etEmail: EditText? = null
     private var etPassword: EditText? = null
-    private var btnLogin: Button? = null
-    private var btnCreateAccount: TextView? = null
     private var mProgressBar: ProgressDialog? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
@@ -40,33 +38,22 @@ class LoginActivity : AppCompatActivity() {
         tvForgotPassword = findViewById<View>(R.id.tv_forgot_password) as TextView
         etEmail = findViewById<View>(R.id.et_email) as EditText
         etPassword = findViewById<View>(R.id.et_password) as EditText
-        btnLogin = findViewById<View>(R.id.btn_login) as Button
-        btnCreateAccount = findViewById<View>(R.id.btn_sign_up) as TextView
         mProgressBar = ProgressDialog(this)
         mAuth = FirebaseAuth.getInstance()
         tvForgotPassword!!
                 .setOnClickListener { startActivity(Intent(this@LoginActivity,
                         ForgotPasswordActivity::class.java)) }
-        btnCreateAccount!!
+        btn_sign_up!!
                 .setOnClickListener { startActivity(Intent(this@LoginActivity,
                         SignUpActivity::class.java)) }
-        btnLogin!!.setOnClickListener { loginUser() }
-//        btn_login.setOnClickListener {
-//            val intent = Intent(applicationContext, MainActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        btn_sign_up.setOnClickListener {
-//            val intent = Intent(applicationContext, SignUpActivity::class.java)
-//            startActivity(intent)
-//        }
+        btn_login!!.setOnClickListener { loginUser() }
     }
 
     private fun loginUser() {
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            mProgressBar!!.setMessage("Registering User...")
+            mProgressBar!!.setMessage("Logging in...")
             mProgressBar!!.show()
             Log.d(TAG, "Logging in user.")
             mAuth!!.signInWithEmailAndPassword(email!!, password!!)

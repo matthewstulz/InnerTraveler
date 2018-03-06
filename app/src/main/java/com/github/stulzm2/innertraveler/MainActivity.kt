@@ -18,16 +18,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : BaseActivity() {
+
     private var recyclerView: RecyclerView? = null
     private var mDatabase: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        val toolbar = findViewById(R.id.toolbar) as Toolbar
-//        setSupportActionBar(toolbar)
-        //initialize recyclerview and FIrebase objects
+        //initialize recyclerview and Firebase objects
         recyclerView = findViewById(R.id.recyclerview)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         recyclerView!!.setHasFixedSize(true)
@@ -45,13 +45,13 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         mAuth!!.addAuthStateListener(mAuthListener!!)
-        val FBRA = object : FirebaseRecyclerAdapter<InnerTraveler, BlogzoneViewHolder>(
+        val FBRA = object : FirebaseRecyclerAdapter<InnerTraveler, ItViewHolder>(
                 InnerTraveler::class.java,
                 R.layout.card_items,
-                BlogzoneViewHolder::class.java,
+                ItViewHolder::class.java,
                 mDatabase
         ) {
-            override fun populateViewHolder(viewHolder: BlogzoneViewHolder, model: InnerTraveler, position: Int) {
+            override fun populateViewHolder(viewHolder: ItViewHolder, model: InnerTraveler, position: Int) {
                 val post_key = getRef(position).key.toString()
                 viewHolder.setTitle(model.title)
                 viewHolder.setDesc(model.desc)
@@ -67,28 +67,25 @@ class MainActivity : BaseActivity() {
         recyclerView!!.adapter = FBRA
     }
 
-    class BlogzoneViewHolder(internal var mView: View) : RecyclerView.ViewHolder(mView) {
+    class ItViewHolder(var mView: View) : RecyclerView.ViewHolder(mView) {
         fun setTitle(title: String?) {
-            val post_title = mView.findViewById<TextView>(R.id.post_title_txtview)
-            post_title.text = title
+            val postTitle = mView.findViewById<TextView>(R.id.post_title_txtview)
+            postTitle.text = title
         }
 
         fun setDesc(desc: String?) {
-            val post_desc = mView.findViewById<TextView>(R.id.post_desc_txtview)
-            post_desc.text = desc
+            val postDesc = mView.findViewById<TextView>(R.id.post_desc_txtview)
+            postDesc.text = desc
         }
 
         fun setImageUrl(ctx: Context, imageUrl: String?) {
-            val post_image = mView.findViewById<ImageView>(R.id.post_image)
-//            Picasso.with(ctx).load(imageUrl).fit().centerInside().into(post_image)
-//            Glide.with(ctx).load(imageUrl).into(post_image)
-            Glide.with(ctx).load(imageUrl).apply(RequestOptions().centerCrop()).into(post_image)
+            val postImage = mView.findViewById<ImageView>(R.id.post_image)
+            Glide.with(ctx).load(imageUrl).apply(RequestOptions().centerCrop()).into(postImage)
         }
 
         fun setUserName(userName: String?) {
             val postUserName = mView.findViewById<TextView>(R.id.post_user)
             postUserName.text = "Posted by $userName"
-//            postUserName.text = (Resources.getSystem().getString(R.string.posted_by) + userName)
         }
     }
 
@@ -104,9 +101,9 @@ class MainActivity : BaseActivity() {
             R.id.action_add -> startActivity(Intent(this@MainActivity, PostActivity::class.java))
             R.id.action_log_out -> {
                 mAuth!!.signOut()
-                val logouIntent = Intent(this@MainActivity, LoginActivity::class.java)
-                logouIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(logouIntent)
+                val logoutIntent = Intent(this@MainActivity, LoginActivity::class.java)
+                logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(logoutIntent)
             }
         }
         return super.onOptionsItemSelected(item)

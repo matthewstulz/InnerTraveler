@@ -10,13 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 class ForgotPasswordActivity : BaseActivity() {
 
     private val TAG = "ForgotPasswordActivity"
     //UI elements
     private var etEmail: EditText? = null
-    private var btnSubmit: Button? = null
     //Firebase references
     private var mAuth: FirebaseAuth? = null
 
@@ -30,9 +30,8 @@ class ForgotPasswordActivity : BaseActivity() {
 
     private fun initOperations() {
         etEmail = findViewById<View>(R.id.et_forgot_password) as EditText
-        btnSubmit = findViewById<View>(R.id.btn_submit) as Button
         mAuth = FirebaseAuth.getInstance()
-        btnSubmit!!.setOnClickListener { sendPasswordResetEmail() }
+        btn_submit!!.setOnClickListener { sendPasswordResetEmail() }
     }
 
     private fun sendPasswordResetEmail() {
@@ -65,8 +64,7 @@ class ForgotPasswordActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == android.R.id.home) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
         return super.onOptionsItemSelected(item)

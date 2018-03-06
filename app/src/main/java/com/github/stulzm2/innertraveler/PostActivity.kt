@@ -23,8 +23,6 @@ class PostActivity : BaseActivity() {
     private var textTitle: EditText? = null
     private var textDesc: EditText? = null
     private var storage: StorageReference? = null
-    private val database: FirebaseDatabase? = null
-    //    private var databaseRef: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private var mDatabaseUsers: DatabaseReference? = null
     private var mCurrentUser: FirebaseUser? = null
@@ -38,8 +36,6 @@ class PostActivity : BaseActivity() {
         textDesc = findViewById(R.id.textDesc)
         textTitle = findViewById(R.id.textTitle)
         storage = FirebaseStorage.getInstance().reference
-//        databaseRef = database!!.getInstance().getReference().child("InnerTraveler")
-//        val databaseRef = FirebaseDatabase.getInstance().reference.child("InnerTraveler")
         mAuth = FirebaseAuth.getInstance()
         mCurrentUser = mAuth!!.currentUser
         mDatabaseUsers = FirebaseDatabase.getInstance().reference.child("Users").child(mCurrentUser!!.uid)
@@ -54,10 +50,10 @@ class PostActivity : BaseActivity() {
     private fun post(databaseRef: DatabaseReference) {
         // posting to Firebase
         Toast.makeText(this@PostActivity, "POSTING...", Toast.LENGTH_LONG).show()
-        val PostTitle = textTitle!!.text.toString().trim { it <= ' ' }
-        val PostDesc = textDesc!!.text.toString().trim { it <= ' ' }
+        val postTitle = textTitle!!.text.toString().trim { it <= ' ' }
+        val postDesc = textDesc!!.text.toString().trim { it <= ' ' }
         // do a check for empty fields
-        if (!TextUtils.isEmpty(PostDesc) && !TextUtils.isEmpty(PostTitle)) {
+        if (!TextUtils.isEmpty(postDesc) && !TextUtils.isEmpty(postTitle)) {
             val filepath = storage!!.child("post_images").child(uri!!.lastPathSegment)
             filepath.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
                 val downloadUrl = taskSnapshot.downloadUrl//getting the post image download url
@@ -66,15 +62,15 @@ class PostActivity : BaseActivity() {
                 //adding post contents to database reference
                 mDatabaseUsers!!.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        newPost.child("title").setValue(PostTitle)
-                        newPost.child("desc").setValue(PostDesc)
+                        newPost.child("title").setValue(postTitle)
+                        newPost.child("desc").setValue(postDesc)
                         newPost.child("imageUrl").setValue(downloadUrl!!.toString())
                         newPost.child("uid").setValue(mCurrentUser!!.uid)
                         newPost.child("username").setValue(dataSnapshot.child("firstName").value)
+                                newPost.child("date").setValue(ServerValue.TIMESTAMP)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
-                                        val intent = Intent(this@PostActivity, MainActivity::class.java)
-                                        startActivity(intent)
+                                        startActivity(Intent(this@PostActivity, MainActivity::class.java))
                                     }
                                 }
                     }
@@ -93,12 +89,7 @@ class PostActivity : BaseActivity() {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             uri = data.data
-//            imageBtn!!.setImageURI(uri)
-
-//            Picasso.with(this).load("file:" + uri).into(imageBtn)
-
             Glide.with(this).load(uri).into(imageBtn)
-
         }
     }
 

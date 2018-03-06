@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : BaseActivity() {
 
@@ -21,7 +22,6 @@ class SignUpActivity : BaseActivity() {
     private var etLastName: EditText? = null
     private var etEmail: EditText? = null
     private var etPassword: EditText? = null
-    private var btnCreateAccount: Button? = null
     private var mProgressBar: ProgressDialog? = null
 
     //Firebase references
@@ -49,12 +49,11 @@ class SignUpActivity : BaseActivity() {
         etLastName = findViewById<View>(R.id.et_last_name) as EditText
         etEmail = findViewById<View>(R.id.et_email) as EditText
         etPassword = findViewById<View>(R.id.et_password) as EditText
-        btnCreateAccount = findViewById<View>(R.id.btn_register) as Button
         mProgressBar = ProgressDialog(this)
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
         mAuth = FirebaseAuth.getInstance()
-        btnCreateAccount!!.setOnClickListener { createNewAccount() }
+        btn_register!!.setOnClickListener { createNewAccount() }
     }
 
     private fun createNewAccount() {
@@ -124,8 +123,7 @@ class SignUpActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == android.R.id.home) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
         return super.onOptionsItemSelected(item)
