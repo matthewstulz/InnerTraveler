@@ -8,8 +8,6 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -17,9 +15,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_post.*
-import java.net.URI
 
 class PostActivity : BaseActivity() {
     // imports

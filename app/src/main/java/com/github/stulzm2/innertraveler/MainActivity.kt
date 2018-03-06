@@ -2,9 +2,7 @@ package com.github.stulzm2.innertraveler
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
-import android.provider.Settings.Global.getString
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,11 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.squareup.picasso.Picasso
 
 class MainActivity : BaseActivity() {
     private var recyclerView: RecyclerView? = null
@@ -81,7 +80,9 @@ class MainActivity : BaseActivity() {
 
         fun setImageUrl(ctx: Context, imageUrl: String?) {
             val post_image = mView.findViewById<ImageView>(R.id.post_image)
-            Picasso.with(ctx).load(imageUrl).fit().centerInside().into(post_image)
+//            Picasso.with(ctx).load(imageUrl).fit().centerInside().into(post_image)
+//            Glide.with(ctx).load(imageUrl).into(post_image)
+            Glide.with(ctx).load(imageUrl).apply(RequestOptions().centerCrop()).into(post_image)
         }
 
         fun setUserName(userName: String?) {

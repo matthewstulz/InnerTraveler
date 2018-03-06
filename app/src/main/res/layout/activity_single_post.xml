@@ -13,8 +13,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
             android:id="@+id/singleImageview"/>
 
         <TextView
@@ -24,14 +23,15 @@
             android:id="@+id/singleTitle"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:text="Post Title"
-            android:textColor="#100d0d"/>
+            android:fontFamily="serif"
+            android:text="@string/hint_post_title" />
 
         <TextView
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Post Description"
+            android:text="@string/hint_post_description"
             android:id="@+id/singleDesc"/>
 
     </LinearLayout>

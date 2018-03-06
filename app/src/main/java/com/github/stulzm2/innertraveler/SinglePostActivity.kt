@@ -1,17 +1,16 @@
 package com.github.stulzm2.innertraveler
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.squareup.picasso.Picasso
 
 class SinglePostActivity : BaseActivity() {
 
@@ -52,7 +51,9 @@ class SinglePostActivity : BaseActivity() {
 
                 singleTitle!!.text = post_title
                 singleDesc!!.text = post_desc
-                Picasso.with(this@SinglePostActivity).load(post_image).fit().centerInside().into(singelImage)
+//                Picasso.with(this@SinglePostActivity).load(post_image).fit().centerInside().into(singelImage)
+                Glide.with(this@SinglePostActivity).load(post_image).apply(RequestOptions().fitCenter()).into(singelImage!!)
+
 //                if (mAuth!!.currentUser!!.uid == post_uid) {
 //
 //                    deleteBtn!!.visibility = View.VISIBLE
