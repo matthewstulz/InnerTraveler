@@ -7,6 +7,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -14,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_profile.*
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
     private var uri: Uri? = null
     private var mDatabase: FirebaseDatabase? = null
@@ -25,12 +31,18 @@ class ProfileActivity : BaseActivity() {
     private var currentFirebaseUser: FirebaseUser? = null
     private var storage: StorageReference? = null
 
+    private lateinit var mMap: GoogleMap
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Profile"
+
+        val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         storage = FirebaseStorage.getInstance().reference
         mDatabase = FirebaseDatabase.getInstance()
@@ -109,5 +121,14 @@ class ProfileActivity : BaseActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        // Add a marker in Sydney and move the camera
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }
