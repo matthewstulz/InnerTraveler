@@ -76,8 +76,10 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         tvProfileName.text = dataSnapshot.child("firstName")?.value as String?
-                        val profileImage = dataSnapshot.child("profilePhoto")?.value as String?
-                        Glide.with(this@ProfileActivity).load(profileImage).into(ivProfile)
+                        if (dataSnapshot.hasChild("profilePhoto")) {
+                            val profileImage = dataSnapshot.child("profilePhoto")?.value as String?
+                            Glide.with(this@ProfileActivity).load(profileImage).into(ivProfile)
+                        }
 
                     }
                     override fun onCancelled(databaseError: DatabaseError) {}
@@ -138,13 +140,15 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
         FirebaseDatabase.getInstance().reference.child("Markers").orderByChild("uid").equalTo(mCurrentUser?.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        for (snapshot in dataSnapshot.children) {
-                            val latitude = snapshot.child("latitude")?.value as Double
-                            val longitude = snapshot.child("longitude")?.value as Double
-                            mTempMarker = LatLng(latitude, longitude)
-                            mMap.addMarker(MarkerOptions().position(mTempMarker!!).title("Marker"))
+                        if (dataSnapshot.exists()) {
+                            for (snapshot in dataSnapshot.children) {
+                                val latitude = snapshot.child("latitude")?.value as Double
+                                val longitude = snapshot.child("longitude")?.value as Double
+                                mTempMarker = LatLng(latitude, longitude)
+                                mMap.addMarker(MarkerOptions().position(mTempMarker!!).title("Marker"))
+                            }
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(mTempMarker))
                         }
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mTempMarker))
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
