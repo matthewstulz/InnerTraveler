@@ -27,7 +27,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //initialize recyclerview and Firebase objects
+        initOperations()
+    }
+
+    private fun initOperations() {
         recyclerView = findViewById(R.id.recyclerview)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         recyclerView!!.setHasFixedSize(true)
@@ -69,12 +72,12 @@ class MainActivity : BaseActivity() {
 
     class ItViewHolder(var mView: View) : RecyclerView.ViewHolder(mView) {
         fun setTitle(title: String?) {
-            val postTitle = mView.findViewById<TextView>(R.id.post_title_txtview)
+            val postTitle = mView.findViewById<TextView>(R.id.tv_post_title)
             postTitle.text = title
         }
 
         fun setDesc(desc: String?) {
-            val postDesc = mView.findViewById<TextView>(R.id.post_desc_txtview)
+            val postDesc = mView.findViewById<TextView>(R.id.tv_post_description)
             postDesc.text = desc
         }
 

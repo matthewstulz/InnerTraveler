@@ -17,13 +17,16 @@ class SinglePostActivity : BaseActivity() {
     private var postKey: String? = null
     private var mDatabase: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
-    private var uId: String? = null
+    private var mUid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_post)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        initOperations()
+    }
 
+    private fun initOperations() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mDatabase = FirebaseDatabase.getInstance().reference.child("InnerTraveler")
         postKey = intent.extras!!.getString("PostID")
         mAuth = FirebaseAuth.getInstance()
@@ -34,11 +37,10 @@ class SinglePostActivity : BaseActivity() {
                 supportActionBar?.title = postTitle
                 singleDesc!!.text = dataSnapshot.child("desc")?.value as String?
                 val postImage = dataSnapshot.child("imageUrl")?.value as String?
-                uId = dataSnapshot.child("uid")?.value as String?
+                mUid = dataSnapshot.child("uid")?.value as String?
                 val postDate = dataSnapshot.child("date")?.value as Long?
 
                 singleTitle!!.text = postTitle
-//                singleDesc!!.text = postDesc
                 if (postDate != null)
                     singleDate!!.text = convertTime(postDate)
                 Glide.with(this@SinglePostActivity).load(postImage).apply(RequestOptions().fitCenter()).into(singleImageview!!)
@@ -62,7 +64,7 @@ class SinglePostActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return if (mAuth!!.currentUser!!.uid == uId) {
+        return if (mAuth!!.currentUser!!.uid == mUid) {
             menuInflater.inflate(R.menu.menu_single_post, menu)
             true
         } else

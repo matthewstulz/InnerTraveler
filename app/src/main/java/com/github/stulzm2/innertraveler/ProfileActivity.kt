@@ -19,25 +19,28 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_profile.*
-import android.graphics.BitmapFactory
 
 class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
-    private var uri: Uri? = null
+    private var mUri: Uri? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
     private var mAuth: FirebaseAuth? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
-    private var numberOfPosts: Int = 0
-    private var currentFirebaseUser: FirebaseUser? = null
-    private var storage: StorageReference? = null
+    private var mNumberOfPosts: Int = 0
+    private var mCurrentUser: FirebaseUser? = null
+    private var mStorage: StorageReference? = null
 
     private lateinit var mMap: GoogleMap
-
+    private var mTempMarker: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        initOperations()
+    }
+
+    private fun initOperations() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Profile"
 
@@ -45,7 +48,7 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        storage = FirebaseStorage.getInstance().reference
+        mStorage = FirebaseStorage.getInstance().reference
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
         mAuthListener = FirebaseAuth.AuthStateListener {
@@ -55,20 +58,21 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
                 startActivity(loginIntent)
             }
         }
-        currentFirebaseUser = FirebaseAuth.getInstance().currentUser
-        FirebaseDatabase.getInstance().reference.child("InnerTraveler").orderByChild("uid").equalTo(currentFirebaseUser?.uid)
-        .addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (snapshot in dataSnapshot.children) {
-                    numberOfPosts++
-                }
-                tvPosts.text = numberOfPosts.toString()
-            }
+        mCurrentUser = FirebaseAuth.getInstance().currentUser
+        FirebaseDatabase.getInstance().reference.child("InnerTraveler").orderByChild("uid")
+                .equalTo(mCurrentUser?.uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (snapshot in dataSnapshot.children) {
+                            mNumberOfPosts++
+                        }
+                        tvPosts.text = mNumberOfPosts.toString()
+                    }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
 
-        mDatabaseReference!!.child(currentFirebaseUser!!.uid)
+        mDatabaseReference!!.child(mCurrentUser!!.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         tvProfileName.text = dataSnapshot.child("firstName")?.value as String?
@@ -83,15 +87,14 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
             val galleryIntent = Intent(Intent.ACTION_GET_CONTENT)
             galleryIntent.type = "image/*"
             startActivityForResult(galleryIntent, ProfileActivity.GALLERY_REQUEST_CODE)
-        }
-    }
+        }    }
 
     private fun updateProfileImage() {
-        val filepath = storage!!.child("users_profile_images").child(uri!!.lastPathSegment)
-        filepath.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+        val filepath = mStorage!!.child("users_profile_images").child(mUri!!.lastPathSegment)
+        filepath.putFile(mUri!!).addOnSuccessListener { taskSnapshot ->
             val downloadUrl = taskSnapshot.downloadUrl
             Toast.makeText(applicationContext, "Profile Image update", Toast.LENGTH_SHORT).show()
-            val updateCurrentUser = mDatabaseReference!!.child(currentFirebaseUser!!.uid)
+            val updateCurrentUser = mDatabaseReference!!.child(mCurrentUser!!.uid)
             updateCurrentUser.child("profilePhoto").setValue(downloadUrl!!.toString()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     startActivity(Intent(this@ProfileActivity, ProfileActivity::class.java))
@@ -100,19 +103,19 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    override// image from gallery result
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    // image from gallery result
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            uri = data.data
-            Glide.with(this).load(uri).into(ivProfile)
+            mUri = data.data
+            Glide.with(this).load(mUri).into(ivProfile)
             updateProfileImage()
         }
     }
 
     companion object {
-        private val GALLERY_REQUEST_CODE = 2
+        private const val GALLERY_REQUEST_CODE = 2
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -126,24 +129,22 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val icon = BitmapFactory.decodeResource(this.resources,
-                R.drawable.ic_beenhere_black_24px)
-
 
         // Add a marker in Sydney and move the camera
-        val florence = LatLng(39.0, -84.0)
-        mMap.addMarker(MarkerOptions().position(florence).title("Florence, KY"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(florence))
+//        val florence = LatLng(39.0, -84.0)
+//        mMap.addMarker(MarkerOptions().position(florence).title("Florence, KY"))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(florence))
 
-        FirebaseDatabase.getInstance().reference.child("Markers").orderByChild("uid").equalTo(currentFirebaseUser?.uid)
+        FirebaseDatabase.getInstance().reference.child("Markers").orderByChild("uid").equalTo(mCurrentUser?.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (snapshot in dataSnapshot.children) {
                             val latitude = snapshot.child("latitude")?.value as Double
                             val longitude = snapshot.child("longitude")?.value as Double
-                            val tempMarker = LatLng(latitude, longitude)
-                            mMap.addMarker(MarkerOptions().position(tempMarker).title("Marker"))
+                            mTempMarker = LatLng(latitude, longitude)
+                            mMap.addMarker(MarkerOptions().position(mTempMarker!!).title("Marker"))
                         }
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mTempMarker))
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -173,12 +174,12 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
             mDatabaseReference = mDatabase!!.reference!!.child("Markers")
             val newMarker = mDatabaseReference!!.push()
-            mDatabaseReference!!.child(currentFirebaseUser!!.uid)
+            mDatabaseReference!!.child(mCurrentUser!!.uid)
                     .addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             newMarker.child("latitude").setValue(latLng.latitude)
                             newMarker.child("longitude").setValue(latLng.longitude)
-                            newMarker.child("uid").setValue(currentFirebaseUser!!.uid)
+                            newMarker.child("uid").setValue(mCurrentUser!!.uid)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             Toast.makeText(this@ProfileActivity, "New marker added", Toast.LENGTH_SHORT).show()

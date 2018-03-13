@@ -14,7 +14,8 @@
     <string name="log_in">Log in</string>
     <string name="no_account">Don\'t have an account?</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="forgot_password_text">An email will be sent that will help you create a new password for your account</string>
+    <string name="forgot_password_text">An email will be sent to assist you in creating a new
+        password for your account</string>
     <string name="forgot_password_button">Send Password Reset</string>
     <string name="or">OR</string>
     <string name="facebook_login_button">Login with Facebook</string>
@@ -26,7 +27,13 @@
     <string name="action_log_out">Log out</string>
     <string name="action_settings">Settings</string>
     <string name="posted_by">Posted by</string>
+    <string name="post_title">Post title</string>
+    <string name="post_description">Post Description</string>
     <string name="action_profile">Profile</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyA3wtJlQ5IK5HesOCnqzTJVJk_s2WxdeOw</string>
+    <string name="date">Date</string>
+    <string name="member">Member</string>
+    <string name="posts">Posts</string>
+    <string name="zero">0</string>
 </resources>
