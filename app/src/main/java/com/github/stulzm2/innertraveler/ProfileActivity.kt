@@ -19,6 +19,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_profile.*
+import android.graphics.BitmapFactory
 
 class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
@@ -125,10 +126,69 @@ class ProfileActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val icon = BitmapFactory.decodeResource(this.resources,
+                R.drawable.ic_beenhere_black_24px)
+
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val florence = LatLng(39.0, -84.0)
+        mMap.addMarker(MarkerOptions().position(florence).title("Florence, KY"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(florence))
+
+        FirebaseDatabase.getInstance().reference.child("Markers").orderByChild("uid").equalTo(currentFirebaseUser?.uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (snapshot in dataSnapshot.children) {
+                            val latitude = snapshot.child("latitude")?.value as Double
+                            val longitude = snapshot.child("longitude")?.value as Double
+                            val tempMarker = LatLng(latitude, longitude)
+                            mMap.addMarker(MarkerOptions().position(tempMarker).title("Marker"))
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                    }
+                })
+
+        // Setting a click event handler for the map
+        mMap.setOnMapClickListener { latLng ->
+            // Creating a marker
+            val markerOptions = MarkerOptions()
+
+            // Setting the position for the marker
+            markerOptions.position(latLng)
+
+            // Setting the title for the marker.
+            // This will be displayed on taping the marker
+            markerOptions.title(latLng.latitude.toString() + " : " + latLng.longitude)
+
+            // Clears the previously touched position
+            googleMap.clear()
+
+            // Animating to the touched position
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+
+            // Placing a marker on the touched position
+            googleMap.addMarker(markerOptions)
+
+            mDatabaseReference = mDatabase!!.reference!!.child("Markers")
+            val newMarker = mDatabaseReference!!.push()
+            mDatabaseReference!!.child(currentFirebaseUser!!.uid)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            newMarker.child("latitude").setValue(latLng.latitude)
+                            newMarker.child("longitude").setValue(latLng.longitude)
+                            newMarker.child("uid").setValue(currentFirebaseUser!!.uid)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Toast.makeText(this@ProfileActivity, "New marker added", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                        }
+                    })
+        }
     }
 }
